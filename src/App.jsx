@@ -57,6 +57,7 @@ function AppContent() {
     const userData = { role, email };
     sessionStorage.setItem('lbca_user', JSON.stringify(userData));
     setUser(userData);
+    navigate('/dashboard');
   };
 
   const handleLogout = () => {
@@ -86,7 +87,7 @@ function App() {
       {/* NotificationProvider is placed INSIDE SchoolProvider but OUTSIDE the router
           so the bell badge stays fresh even across page navigations */}
       <NotificationProvider>
-        <BrowserRouter basename="/LBCA-Monitoring-System">
+        <BrowserRouter basename="/LBCA_Monitoring_System_FASTAPI">
           <AppContent />
         </BrowserRouter>
       </NotificationProvider>
