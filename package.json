@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "homepage": "https://shanmili.github.io/LBCA-Monitoring-System",
+  "homepage": "https://shanmili.github.io/LBCA_Monitoring_System_FASTAPI",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
