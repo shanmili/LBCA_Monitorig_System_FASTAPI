@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+      var base = '/LBCA-Monitoring-System';
+      var full = window.location.pathname;
+      var path = full.slice(base.length) || '/';
+      sessionStorage.setItem('redirect', path + window.location.search);
+      window.location.replace(base + '/?r=1');
+    </script>
+  </head>
+  <body></body>
+</html>
