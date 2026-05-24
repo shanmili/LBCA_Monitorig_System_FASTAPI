@@ -6,7 +6,6 @@ const LoginScreen = ({ onLogin, onForgotPassword, onRegister, error, isLoading }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [focused, setFocused] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,23 +59,22 @@ const LoginScreen = ({ onLogin, onForgotPassword, onRegister, error, isLoading }
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onFocus={() => setFocused(true)}
-                onBlur={() => { setFocused(false); setShowPassword(false); }}
                 required
                 disabled={isLoading}
                 autoComplete="current-password"
               />
-              {password && focused && (
+              {password && (
                 <button
                   type="button"
                   className="password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               )}
-            </div>    
+            </div>
           </div>
 
           <button type="submit" className="btn-submit" disabled={isLoading}>

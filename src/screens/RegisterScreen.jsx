@@ -13,7 +13,7 @@ const RegisterScreen = ({ onRegister, onBack, error, isLoading }) => {
     confirm_password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [focused, setFocused] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [localError, setLocalError] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -200,17 +200,16 @@ const RegisterScreen = ({ onRegister, onBack, error, isLoading }) => {
                 placeholder="Min. 6 characters"
                 value={form.password}
                 onChange={set('password')}
-                onFocus={() => setFocused(true)}
-                onBlur={() => { setFocused(false); setShowPassword(false); }}
                 required
                 disabled={isLoading}
                 autoComplete="new-password"
               />
-              {form.password && focused && (
+              {form.password && (
                 <button
                   type="button"
                   className="password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -227,16 +226,29 @@ const RegisterScreen = ({ onRegister, onBack, error, isLoading }) => {
 
           <div className="form-group">
             <label className="form-label">Confirm Password <span className="required">*</span></label>
-            <input
-              type="password"
-              className="form-input"
-              placeholder="Re-enter password"
-              value={form.confirm_password}
-              onChange={set('confirm_password')}
-              required
-              disabled={isLoading}
-              autoComplete="new-password"
-            />
+            <div className="password-wrapper">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                className="form-input"
+                placeholder="Re-enter password"
+                value={form.confirm_password}
+                onChange={set('confirm_password')}
+                required
+                disabled={isLoading}
+                autoComplete="new-password"
+              />
+              {form.confirm_password && (
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                  tabIndex={-1}
+                >
+                  {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              )}
+            </div>
             {form.confirm_password && form.password !== form.confirm_password && (
               <span className="field-error">Passwords do not match</span>
             )}
