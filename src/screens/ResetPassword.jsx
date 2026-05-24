@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../styles/Login.css';
+import { Eye, EyeOff } from 'lucide-react';
 
 const ResetPasswordScreen = ({ onSubmit, onBack, error, isLoading, otpCode }) => {
   const [newPassword, setNewPassword] = useState('');
@@ -72,7 +73,7 @@ const ResetPasswordScreen = ({ onSubmit, onBack, error, isLoading, otpCode }) =>
                 onClick={() => setShowNew(!showNew)}
                 tabIndex={-1}
               >
-                {showNew ? '🙈' : '👁'}
+                {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {newPassword && (
@@ -113,7 +114,7 @@ const ResetPasswordScreen = ({ onSubmit, onBack, error, isLoading, otpCode }) =>
                 onClick={() => setShowConfirm(!showConfirm)}
                 tabIndex={-1}
               >
-                {showConfirm ? '🙈' : '👁'}
+                {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
             {confirmPassword && newPassword !== confirmPassword && (
