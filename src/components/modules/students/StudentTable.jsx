@@ -11,7 +11,7 @@ const StudentTable = ({ students, getStatusBadgeClass, onNavigate }) => {
       <table className="students-list-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>No.</th>
             <th>Student Name</th>
             <th>Grade</th>
             <th>Section</th>
@@ -24,9 +24,9 @@ const StudentTable = ({ students, getStatusBadgeClass, onNavigate }) => {
         </thead>
         <tbody>
           {students.length > 0 ? (
-            students.map(student => (
+            students.map((student, index) => (
               <tr key={student.student_id}>
-                <td>{student.student_id}</td>
+                <td>{index + 1}</td>
                 <td className="student-name-cell">{getFullName(student)}</td>
                 <td>{student.gradeLevelDisplay}</td>
                 <td>{student.sectionDisplay}</td>
