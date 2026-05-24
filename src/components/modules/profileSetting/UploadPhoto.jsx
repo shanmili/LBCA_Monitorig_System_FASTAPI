@@ -5,41 +5,23 @@ import "../../../styles/profileSetting/UploadPhoto.css";
 const UploadPhoto = ({ isOpen, onClose, onUpload }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
-
-  // Crop state
   const [cropStart, setCropStart] = useState(null);
   const [cropRect, setCropRect] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const canvasRef = useRef(null);
   const imageRef = useRef(null);
   const containerRef = useRef(null);
 
-  if (!isOpen) return null;
-
-  const reset = () => {
+  const reset = useCallback(() => {
     setSelectedFile(null);
     setImageSrc(null);
     setCropStart(null);
     setCropRect(null);
     setIsDragging(false);
-  };
+  }, []);
 
-  const handleClose = () => { reset(); onClose(); };
-
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (!file.type.match('image.*')) { alert('Please select an image file'); return; }
-    if (file.size > 5 * 1024 * 1024) { alert('File size must be less than 5MB'); return; }
-    setSelectedFile(file);
-    setCropRect(null);
-    const reader = new FileReader();
-    reader.onloadend = () => setImageSrc(reader.result);
-    reader.readAsDataURL(file);
-  };
-
-  const getRelativePos = (e) => {
+  const getRelativePos = useCallback((e) => {
+    if (!containerRef.current) return { x: 0, y: 0 };
     const rect = containerRef.current.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -47,15 +29,7 @@ const UploadPhoto = ({ isOpen, onClose, onUpload }) => {
       x: Math.max(0, Math.min(clientX - rect.left, rect.width)),
       y: Math.max(0, Math.min(clientY - rect.top, rect.height)),
     };
-  };
-
-  const onMouseDown = (e) => {
-    e.preventDefault();
-    const pos = getRelativePos(e);
-    setCropStart(pos);
-    setCropRect(null);
-    setIsDragging(true);
-  };
+  }, []);
 
   const onMouseMove = useCallback((e) => {
     if (!isDragging || !cropStart) return;
@@ -67,7 +41,7 @@ const UploadPhoto = ({ isOpen, onClose, onUpload }) => {
       w: Math.abs(pos.x - cropStart.x),
       h: Math.abs(pos.y - cropStart.y),
     });
-  }, [isDragging, cropStart]);
+  }, [isDragging, cropStart, getRelativePos]);
 
   const onMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -88,8 +62,33 @@ const UploadPhoto = ({ isOpen, onClose, onUpload }) => {
     };
   }, [isDragging, onMouseMove, onMouseUp]);
 
+  // Early return AFTER all hooks
+  if (!isOpen) return null;
+
+  const handleClose = () => { reset(); onClose(); };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.match('image.*')) { alert('Please select an image file'); return; }
+    if (file.size > 5 * 1024 * 1024) { alert('File size must be less than 5MB'); return; }
+    setSelectedFile(file);
+    setCropRect(null);
+    const reader = new FileReader();
+    reader.onloadend = () => setImageSrc(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  const onMouseDown = (e) => {
+    e.preventDefault();
+    const pos = getRelativePos(e);
+    setCropStart(pos);
+    setCropRect(null);
+    setIsDragging(true);
+  };
+
   const handleUpload = () => {
-    if (!selectedFile && !imageSrc) return;
+    if (!selectedFile) return;
 
     if (cropRect && cropRect.w > 5 && cropRect.h > 5 && imageRef.current && containerRef.current) {
       const img = imageRef.current;
@@ -99,17 +98,16 @@ const UploadPhoto = ({ isOpen, onClose, onUpload }) => {
       const naturalW = img.naturalWidth;
       const naturalH = img.naturalHeight;
 
-      // Container offset of the image inside the crop-zone div
       const imgOffsetX = (containerRect.width - displayW) / 2;
       const imgOffsetY = (containerRect.height - displayH) / 2;
 
       const scaleX = naturalW / displayW;
       const scaleY = naturalH / displayH;
 
-      const sx = (cropRect.x - imgOffsetX) * scaleX;
-      const sy = (cropRect.y - imgOffsetY) * scaleY;
-      const sw = cropRect.w * scaleX;
-      const sh = cropRect.h * scaleY;
+      const sx = Math.max(0, (cropRect.x - imgOffsetX) * scaleX);
+      const sy = Math.max(0, (cropRect.y - imgOffsetY) * scaleY);
+      const sw = Math.min(cropRect.w * scaleX, naturalW - sx);
+      const sh = Math.min(cropRect.h * scaleY, naturalH - sy);
 
       const canvas = document.createElement('canvas');
       canvas.width = Math.max(1, sw);
@@ -146,7 +144,19 @@ const UploadPhoto = ({ isOpen, onClose, onUpload }) => {
                 ref={containerRef}
                 onMouseDown={onMouseDown}
                 onTouchStart={onMouseDown}
-                style={{ userSelect: 'none', position: 'relative', cursor: 'crosshair', overflow: 'hidden', width: '100%', maxHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000', borderRadius: '0.5rem' }}
+                style={{
+                  userSelect: 'none',
+                  position: 'relative',
+                  cursor: 'crosshair',
+                  overflow: 'hidden',
+                  width: '100%',
+                  maxHeight: '260px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: '#000',
+                  borderRadius: '0.5rem',
+                }}
               >
                 <img
                   ref={imageRef}
@@ -159,20 +169,21 @@ const UploadPhoto = ({ isOpen, onClose, onUpload }) => {
                   <>
                     <div style={{
                       position: 'absolute',
-                      left: cropRect.x, top: cropRect.y,
-                      width: cropRect.w, height: cropRect.h,
+                      left: cropRect.x,
+                      top: cropRect.y,
+                      width: cropRect.w,
+                      height: cropRect.h,
                       border: '2px solid #fff',
                       boxShadow: '0 0 0 9999px rgba(0,0,0,0.45)',
                       pointerEvents: 'none',
                       boxSizing: 'border-box',
                     }} />
                     <div style={{ position: 'absolute', left: cropRect.x, top: cropRect.y, width: cropRect.w, height: cropRect.h, pointerEvents: 'none' }}>
-                      {/* Rule-of-thirds grid */}
-                      {[1,2].map(i => (
-                        <div key={`v${i}`} style={{ position:'absolute', left:`${i*33.33}%`, top:0, width:1, height:'100%', background:'rgba(255,255,255,0.4)' }} />
+                      {[1, 2].map(i => (
+                        <div key={`v${i}`} style={{ position: 'absolute', left: `${i * 33.33}%`, top: 0, width: 1, height: '100%', background: 'rgba(255,255,255,0.4)' }} />
                       ))}
-                      {[1,2].map(i => (
-                        <div key={`h${i}`} style={{ position:'absolute', top:`${i*33.33}%`, left:0, height:1, width:'100%', background:'rgba(255,255,255,0.4)' }} />
+                      {[1, 2].map(i => (
+                        <div key={`h${i}`} style={{ position: 'absolute', top: `${i * 33.33}%`, left: 0, height: 1, width: '100%', background: 'rgba(255,255,255,0.4)' }} />
                       ))}
                     </div>
                   </>
