@@ -19,9 +19,9 @@ const AdminScreen = ({ onLogout, user }) => {
   useEffect(() => {
     const path = window.location.pathname;
     if (
-      path === '/LBCA-Monitoring-System' ||
-      path === '/LBCA-Monitoring-System/' ||
-      path === '/LBCA-Monitoring-System/?r=1'
+      path === '/LBCA_Monitoring_System_FASTAPI' ||
+      path === '/LBCA_Monitoring_System_FASTAPI/' ||
+      path === '/LBCA_Monitoring_System_FASTAPI/?r=1'
     ) {
       navigate('/dashboard', { replace: true });
     }
