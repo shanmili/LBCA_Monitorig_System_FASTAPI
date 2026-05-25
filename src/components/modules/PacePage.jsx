@@ -3,7 +3,7 @@ import PaceTable from './pace/PaceTable';
 import usePaceEncodingState from '../../hooks/usePaceEncodingState';
 import '../../styles/pace/PacePage.css';
 
-const PacePage = () => {
+const PacePage = ({ teacher = null }) => {
   const {
     filters,
     updateFilter,
@@ -23,7 +23,7 @@ const PacePage = () => {
     loading,
     loadingRef,
     error,
-  } = usePaceEncodingState();
+  } = usePaceEncodingState(teacher);
 
   return (
     <div className="pace-page">

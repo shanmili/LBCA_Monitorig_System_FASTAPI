@@ -33,11 +33,37 @@ function toPaceRecords(backendRows) {
   }));
 }
 
+function filterAssignedGrades(gradeLevels = [], teacher = null) {
+  if (!teacher?.assignedGrades?.length) return gradeLevels;
+  return gradeLevels.filter((gradeLevel) => teacher.assignedGrades.includes(gradeLevel.level));
+}
+
+function filterAssignedSections(sections = [], teacher = null) {
+  if (!teacher?.assignedSections?.length) return sections;
+  return sections.filter((section) => teacher.assignedSections.includes(section.name));
+}
+
+function filterAssignedSubjects(subjects = [], teacher = null) {
+  if (!teacher?.assignedSubjects?.length) return subjects;
+  return subjects.filter((subject) => teacher.assignedSubjects.includes(subject.subject_name));
+}
+
+function resolveTeacherSchoolYear(schoolYears = [], teacher = null) {
+  if (!teacher?.schoolYearId) {
+    return schoolYears.find((sy) => sy.is_current) || schoolYears[0] || null;
+  }
+
+  return schoolYears.find((sy) => String(sy.school_year_id) === String(teacher.schoolYearId))
+    || schoolYears.find((sy) => sy.is_current)
+    || schoolYears[0]
+    || null;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Hook
 // ─────────────────────────────────────────────────────────────────────────────
 
-export default function usePaceEncodingState() {
+export default function usePaceEncodingState(teacher = null) {
   // ── Reference data loaded from backend ───────────────────────────────────
   const [schoolYears, setSchoolYears]   = useState([]);
   const [gradeLevels, setGradeLevels]   = useState([]);
@@ -80,24 +106,25 @@ export default function usePaceEncodingState() {
           gradeLevelApi.list(),
         ]);
 
+        const availableGradeLevels = filterAssignedGrades(glList, teacher);
+        const defaultSy = resolveTeacherSchoolYear(syList, teacher);
+        const defaultGl = availableGradeLevels[0] || null;
+
         setSchoolYears(syList);
-        setGradeLevels(glList);
+        setGradeLevels(availableGradeLevels);
 
-        // Default to current school year
-        let defaultSy = syList.find((sy) => sy.is_current) || syList[0] || null;
-        let defaultGl = glList[0] || null;
-
-        // Load sections for default grade level
         let secList = [];
-        if (defaultGl) {
-          secList = await sectionApi.list(defaultGl.grade_level_id);
-          setSections(secList);
-        }
-
-        // Load subjects for default grade level
         let subjList = [];
+
         if (defaultGl) {
-          subjList = await subjectApi.list(defaultGl.grade_level_id);
+          const [sectionsResponse, subjectsResponse] = await Promise.all([
+            sectionApi.list(defaultGl.grade_level_id),
+            subjectApi.list(defaultGl.grade_level_id),
+          ]);
+
+          secList = filterAssignedSections(sectionsResponse, teacher);
+          subjList = filterAssignedSubjects(subjectsResponse, teacher);
+          setSections(secList);
           setSubjects(subjList);
         }
 
@@ -136,11 +163,15 @@ export default function usePaceEncodingState() {
         sectionApi.list(gradeLevelId),
         subjectApi.list(gradeLevelId),
       ]);
-      setSections(secList);
-      setSubjects(subjList);
 
-      const defaultSec  = secList[0]  || null;
-      const defaultSubj = subjList[0] || null;
+      const scopedSections = filterAssignedSections(secList, teacher);
+      const scopedSubjects = filterAssignedSubjects(subjList, teacher);
+
+      setSections(scopedSections);
+      setSubjects(scopedSubjects);
+
+      const defaultSec  = scopedSections[0]  || null;
+      const defaultSubj = scopedSubjects[0] || null;
 
       setFilters((prev) => ({
         ...prev,
@@ -154,7 +185,7 @@ export default function usePaceEncodingState() {
     } catch (err) {
       setError('Failed to load sections/subjects: ' + err.message);
     }
-  }, [gradeLevels]);
+  }, [gradeLevels, teacher]);
 
   // ─────────────────────────────────────────────────────────────────────
   // 3. Generic filter updater (called by PaceFilter)
@@ -433,7 +464,10 @@ export default function usePaceEncodingState() {
   // ─────────────────────────────────────────────────────────────────────
   // Derived option lists for the filter dropdowns
   // ─────────────────────────────────────────────────────────────────────
-  const schoolYearOptions = schoolYears.map((sy) => sy.year);
+  const scopedSchoolYear = resolveTeacherSchoolYear(schoolYears, teacher);
+  const schoolYearOptions = teacher
+    ? [scopedSchoolYear?.year].filter(Boolean)
+    : schoolYears.map((sy) => sy.year);
   const gradeLevelOptions = gradeLevels.map((gl) => gl.level);
   const sectionOptions    = sections.map((s) => s.name);
   const subjectOptions    = subjects.map((s) => s.subject_name);
