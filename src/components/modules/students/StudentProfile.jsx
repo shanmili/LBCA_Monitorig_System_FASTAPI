@@ -105,7 +105,7 @@ const StudentProfile = ({ onNavigate }) => {
               {student.login_id && <> &bull; Login: <strong>{student.login_id}</strong></>}
             </p>
             <p style={{ fontSize: 12, color: '#6b7280', marginTop: 2 }}>
-              {student.schoolYearDisplay} &bull; {student.isActive ? '✅ Active' : '⛔ Inactive'}
+              {student.schoolYearDisplay} &bull; {student.isActive ? 'Active' : 'Inactive'}
             </p>
           </div>
         </div>

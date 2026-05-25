@@ -96,7 +96,7 @@ const SubjectModal = ({ isOpen, onClose, onSave, editingItem, gradeLevels = [] }
                 <option value="">-- Select Grade Level --</option>
                 {gradeLevels.map(gl => (
                   <option key={gl.grade_level_id} value={gl.grade_level_id}>
-                    {gl.level} - {gl.name}
+                    {gl.name}
                   </option>
                 ))}
               </select>

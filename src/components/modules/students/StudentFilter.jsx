@@ -44,7 +44,7 @@ const StudentFilter = ({
         { value: 'All', label: 'All Years' },
         ...schoolYears.map(sy => ({
           value: String(sy.school_year_id),
-          label: `SY ${sy.year}${sy.is_current ? ' ✓' : ''}`,
+          label: `SY ${sy.year}`,
         })),
       ],
     },
@@ -66,7 +66,7 @@ const StudentFilter = ({
         { value: 'All', label: 'All Sections' },
         ...availableSections.map(s => ({
           value: String(s.section_id),
-          label: `${s.section_code} — ${s.name}`,
+          label: `${s.name}`,
         })),
       ],
     },

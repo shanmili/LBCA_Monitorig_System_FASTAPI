@@ -380,7 +380,7 @@ const ClassScheduleSection = ({
               >
                 <option value="">-- Select Grade Level --</option>
                 {gradeLevels.map(gl => (
-                  <option key={gl.grade_level_id} value={gl.grade_level_id}>{gl.level} - {gl.name}</option>
+                  <option key={gl.grade_level_id} value={gl.grade_level_id}>{gl.name}</option>
                 ))}
               </select>
             </div>
@@ -396,7 +396,7 @@ const ClassScheduleSection = ({
               >
                 <option value="">-- Select Section --</option>
                 {availableSections.map(section => (
-                  <option key={section.section_id} value={section.section_id}>{section.section_code} - {section.name}</option>
+                  <option key={section.section_id} value={section.section_id}>{section.name}</option>
                 ))}
               </select>
             </div>

@@ -62,7 +62,7 @@ const SubjectTable = () => {
 
   const getGradeLevelName = (id) => {
     const gl = gradeLevels.find(g => g.grade_level_id === id);
-    return gl ? `${gl.level} - ${gl.name}` : `Grade Level ${id}`;
+    return gl ? `${gl.name}` : `Grade Level ${id}`;
   };
 
   const getSubjectsByGradeLevel = (gradeLevelId) => {
