@@ -114,7 +114,7 @@ export default function usePaceEncodingState(teacher = null) {
         setGradeLevels(availableGradeLevels);
 
         let secList = [];
-        let subjList = filterAssignedSubjects(subjectsResponse, teacher);
+        let subjList = [];
 
         if (defaultGl) {
           const [sectionsResponse, subjectsResponse] = await Promise.all([
@@ -126,14 +126,15 @@ export default function usePaceEncodingState(teacher = null) {
           subjList = filterAssignedSubjects(subjectsResponse, teacher);
           // Deduplicate by subject_name
           const uniqueSubjList = subjList.reduce((acc, subject) => {
-          if (!acc.find(s => s.subject_name === subject.subject_name)) {
-          acc.push(subject);
-          }
-          return acc;
+            if (!acc.find(s => s.subject_name === subject.subject_name)) {
+              acc.push(subject);
+            }
+            return acc;
           }, []);
 
           setSections(secList);
           setSubjects(uniqueSubjList);  // Use the deduplicated list
+          subjList = uniqueSubjList;  // Update subjList with deduplicated version
         }
 
         const defaultSec  = secList[0]  || null;
@@ -173,19 +174,10 @@ export default function usePaceEncodingState(teacher = null) {
       ]);
 
       const scopedSections = filterAssignedSections(secList, teacher);
-
       const scopedSubjects = filterAssignedSubjects(subjList, teacher);
 
-      // Deduplicate by subject_name
-      const uniqueSubjects = scopedSubjects.reduce((acc, subject) => {
-      if (!acc.find(s => s.subject_name === subject.subject_name)) {
-      acc.push(subject);
-      }
-      return acc;
-      }, []);
-
       setSections(scopedSections);
-      setSubjects(uniqueSubjects);  // Use the deduplicated list
+      setSubjects(scopedSubjects);
 
       const defaultSec  = scopedSections[0]  || null;
       const defaultSubj = scopedSubjects[0] || null;
