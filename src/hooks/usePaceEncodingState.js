@@ -470,7 +470,7 @@ export default function usePaceEncodingState(teacher = null) {
     : schoolYears.map((sy) => sy.year);
   const gradeLevelOptions = gradeLevels.map((gl) => gl.level);
   const sectionOptions    = sections.map((s) => s.name);
-  const subjectOptions    = subjects.map((s) => s.subject_name);
+  const subjectOptions    = [...new Set(subjects.map((s) => s.subject_name))];
 
   return {
     // filter state (display values for dropdowns)
