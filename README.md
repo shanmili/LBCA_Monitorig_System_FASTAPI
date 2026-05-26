@@ -1,8 +1,8 @@
-# LBCA Monitor — Learning-Based Competency Assessment Monitoring System
+# LBCA Monitoring System — Learning-Based Competency Assessment Monitoring System
 
 ## Project Description
 
-LBCA Monitor is a full-stack academic monitoring platform designed for schools following the PACE (Personalized Achievement of Curriculum Education) learning model. It provides real-time visibility into student academic progress, risk levels, and pace performance across three interconnected platforms: a **web-based admin/teacher dashboard**, a **student/parent mobile app**, and a **REST API backend**. The system automatically flags at-risk students based on their pace percentage, enabling early intervention by teachers and administrators.
+LBCA Monitoring System is a full-stack academic monitoring platform designed for schools following the PACE (Personalized Achievement of Curriculum Education) learning model. It provides real-time visibility into student academic progress, risk levels, and pace performance across three interconnected platforms: a **web-based admin/teacher dashboard**, a **student/parent mobile app**, and a **REST API backend**. The system automatically flags at-risk students based on their pace percentage, enabling early intervention by teachers and administrators.
 
 ---
 
