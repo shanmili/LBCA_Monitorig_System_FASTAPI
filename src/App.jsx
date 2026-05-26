@@ -89,7 +89,7 @@ function App() {
   return (
     <SchoolProvider>
       <NotificationProvider>
-        <BrowserRouter basename="/LBCA_Monitoring_System_FASTAPI">
+        <BrowserRouter>
           <AppContent />
         </BrowserRouter>
       </NotificationProvider>
