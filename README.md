@@ -1,4 +1,4 @@
-<img width="960" height="540" alt="image" src="https://github.com/user-attachments/assets/8a5f709c-735c-45d4-816d-15e8fd3d21c1" /># LBCA Monitoring System — Learning-Based Competency Assessment Monitoring System
+<img width="158" height="356" alt="image" src="https://github.com/user-attachments/assets/4cc172bc-6190-4cfd-9409-b467f0cd607d" /># LBCA Monitoring System — Learning-Based Competency Assessment Monitoring System
 
 ## Project Description
 
@@ -199,11 +199,10 @@ Authentication is required to access the system. Contact the development team or
 
 | Name | Role |
 |---|---|
-| *(Add team member)* | Frontend Developer (Web) |
-| *(Add team member)* | Mobile Developer |
-| *(Add team member)* | Backend Developer |
-| *(Add team member)* | UI/UX Designer |
-| *(Add team member)* | Project Manager |
+| Keybird Evasco | Frontend Developer (Web) |
+| Sef Rowinston Maco | Mobile Developer |
+| Norhaifah Alion | Backend Developer |
+| Shanmae Leigh de Gala | UI/UX Designer |
 
 ---
 
@@ -226,6 +225,17 @@ Authentication is required to access the system. Contact the development team or
 <img width="957" height="440" alt="image" src="https://github.com/user-attachments/assets/558a54e5-ea75-4f99-b97b-4f41ad163b1a" />
 <img width="960" height="442" alt="image" src="https://github.com/user-attachments/assets/a58cadcc-179c-4854-867f-649f7305d442" />
 <img width="960" height="439" alt="image" src="https://github.com/user-attachments/assets/1218678e-f2ea-4ffe-8f89-b4c9422d4eaf" />
+
+<img width="1080" height="2400" alt="Screenshot_2026-05-26-13-50-28-26_4422dbd70149a4e709f797eb64b38b91" src="https://github.com/user-attachments/assets/cab326bc-b48b-45dc-848b-9aa63558b483" />
+<img width="1080" height="2400" alt="Screenshot_2026-05-26-13-50-43-14_4422dbd70149a4e709f797eb64b38b91" src="https://github.com/user-attachments/assets/a10c5d9d-84ba-4ba6-a5a7-2635d2fed73e" />
+<img width="162" height="354" alt="image" src="https://github.com/user-attachments/assets/c8b3347e-7fde-4af5-8149-1eaf994d3e7d" />
+<img width="157" height="355" alt="image" src="https://github.com/user-attachments/assets/3f466c01-764d-43bc-b804-8d7f6867580c" />
+
+
+
+
+
+
 
 
 
