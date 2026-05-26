@@ -10,7 +10,7 @@ import PaceForecastChart from './dashboard/PaceForecastChart';
 import AtRiskTable from './dashboard/AtRiskTable';
 import ActivityFeed from './dashboard/ActivityFeed';
 import useDashboardDataState from '../../hooks/useDashboardDataState';
-import '../../styles/dashboard/dashboard.css';
+import '../../styles/dashboard/Dashboard.css';
 
 const Dashboard = ({ onNavigate, userRole = 'admin' }) => {
   const {
