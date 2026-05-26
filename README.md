@@ -1,4 +1,4 @@
-# LBCA Monitoring System — Learning-Based Competency Assessment Monitoring System
+<img width="960" height="540" alt="image" src="https://github.com/user-attachments/assets/8a5f709c-735c-45d4-816d-15e8fd3d21c1" /># LBCA Monitoring System — Learning-Based Competency Assessment Monitoring System
 
 ## Project Description
 
@@ -219,5 +219,18 @@ Authentication is required to access the system. Contact the development team or
 ---
 
 ## Screenshots
+<img width="960" height="442" alt="image" src="https://github.com/user-attachments/assets/61b7339f-fa96-40b9-919e-a81618dd44c5" />
+<img width="960" height="439" alt="image" src="https://github.com/user-attachments/assets/2a0bb466-5fb7-4599-8e91-5c1ed2ce1644" />
+<img width="960" height="441" alt="image" src="https://github.com/user-attachments/assets/2ee6ea3e-c8d4-4930-b0e1-dae6fde05ae9" />
+<img width="960" height="438" alt="image" src="https://github.com/user-attachments/assets/349c0c78-d1bd-428f-94bb-30eab519aa90" />
+<img width="957" height="440" alt="image" src="https://github.com/user-attachments/assets/558a54e5-ea75-4f99-b97b-4f41ad163b1a" />
+<img width="960" height="442" alt="image" src="https://github.com/user-attachments/assets/a58cadcc-179c-4854-867f-649f7305d442" />
+<img width="960" height="439" alt="image" src="https://github.com/user-attachments/assets/1218678e-f2ea-4ffe-8f89-b4c9422d4eaf" />
 
-> *(Add screenshots here — web dashboard, mobile home screen, grades view, alerts screen, etc.)*
+
+
+
+
+
+
+
