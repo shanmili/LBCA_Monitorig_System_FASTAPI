@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Routes, Route } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout.jsx';
 import { NotificationProvider } from '../context/NotificationContext.jsx';
@@ -16,17 +16,6 @@ const AdminScreen = ({ onLogout, user }) => {
   const navigate = useNavigate();
   const [adminPhoto, setAdminPhoto] = useState(null);
 
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (
-      path === '/LBCA_Monitoring_System_FASTAPI' ||
-      path === '/LBCA_Monitoring_System_FASTAPI/' ||
-      path === '/LBCA_Monitoring_System_FASTAPI/?r=1'
-    ) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, []);
-
   const handleNavigate = (tab, studentId) => {
     if (tab === 'logout') { onLogout(); return; }
     if (tab === 'teachers') {
@@ -41,14 +30,14 @@ const AdminScreen = ({ onLogout, user }) => {
   };
 
   const getActiveTab = () => {
-    const path = window.location.pathname;
-    if (path.includes('/account-settings')) return 'account-settings';
-    if (path.includes('/students')) return 'students';
-    if (path.includes('/teachers')) return 'teachers';
-    if (path.includes('/approvals')) return 'approvals';
-    if (path.includes('/risk')) return 'risk';
-    if (path.includes('/student/')) return 'students';
-    if (path.includes('/class-management')) return 'class-management';
+    const hash = window.location.hash.replace('#', '') || '/';
+    if (hash.includes('/account-settings')) return 'account-settings';
+    if (hash.includes('/students')) return 'students';
+    if (hash.includes('/teachers')) return 'teachers';
+    if (hash.includes('/approvals')) return 'approvals';
+    if (hash.includes('/risk')) return 'risk';
+    if (hash.includes('/student/')) return 'students';
+    if (hash.includes('/class-management')) return 'class-management';
     return 'dashboard';
   };
 

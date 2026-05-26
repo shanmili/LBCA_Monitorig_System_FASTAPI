@@ -1,10 +1,5 @@
-// ============================================================
-// App.jsx — wraps NotificationProvider so all screens get live
-// notification data from the AI model and FastAPI backend.
-// ============================================================
-
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TeacherScreen from './screens/TeacherScreen';
 import AdminScreen from './screens/AdminScreen';
 import AuthController from './AuthController';
@@ -21,7 +16,7 @@ import './styles/layout/Notification.css';
 import './styles/profileSetting/ProfileSetting.css';
 
 import { SchoolProvider } from './context/SchoolContext';
-import { NotificationProvider } from './context/NotificationContext';   // ← live
+import { NotificationProvider } from './context/NotificationContext';
 import LoadingScreen from './components/common/LoadingScreen';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8001';
@@ -35,6 +30,15 @@ function AppContent() {
     } catch { return null; }
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  // Restore page after GitHub Pages 404 redirect
+  useEffect(() => {
+    const redirectPath = sessionStorage.getItem('redirect');
+    if (redirectPath) {
+      sessionStorage.removeItem('redirect');
+      navigate(redirectPath, { replace: true });
+    }
+  }, []);
 
   const handleAuthSuccess = async (accessToken, refreshToken, user = null) => {
     sessionStorage.setItem('access_token', accessToken);
@@ -84,8 +88,6 @@ function AppContent() {
 function App() {
   return (
     <SchoolProvider>
-      {/* NotificationProvider is placed INSIDE SchoolProvider but OUTSIDE the router
-          so the bell badge stays fresh even across page navigations */}
       <NotificationProvider>
         <BrowserRouter basename="/LBCA_Monitoring_System_FASTAPI">
           <AppContent />

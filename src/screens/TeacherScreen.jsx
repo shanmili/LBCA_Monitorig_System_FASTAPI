@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout.jsx';
 import { NotificationProvider } from '../context/NotificationContext.jsx';
@@ -14,17 +14,6 @@ const TeacherScreen = ({ onLogout, user }) => {
   const navigate = useNavigate();
   const [teacherPhoto, setTeacherPhoto] = useState(null);
 
-  // Redirect to /dashboard on first mount
-  useEffect(() => {
-    const path = window.location.pathname;
-    // Only redirect if literally at the base with no route
-    if (path === '/LBCA_Monitoring_System_FASTAPI' || 
-        path === '/LBCA_Monitoring_System_FASTAPI/' ||
-        path === '/LBCA_Monitoring_System_FASTAPI/?r=1') {
-      navigate('/dashboard', { replace: true });
-    }
-  }, []);
-
   const handleNavigate = (tab, studentId) => {
     if (tab === 'logout') { onLogout(); return; }
     if (tab === 'student-profile' && studentId) {
@@ -35,12 +24,12 @@ const TeacherScreen = ({ onLogout, user }) => {
   };
 
   const getActiveTab = () => {
-    const path = window.location.pathname;
-    if (path.includes('/account-settings')) return 'account-settings';
-    if (path.includes('/students')) return 'students';
-    if (path.includes('/pace')) return 'pace';
-    if (path.includes('/risk')) return 'risk';
-    if (path.includes('/student/')) return 'students';
+    const hash = window.location.hash.replace('#', '') || '/';
+    if (hash.includes('/account-settings')) return 'account-settings';
+    if (hash.includes('/students')) return 'students';
+    if (hash.includes('/pace')) return 'pace';
+    if (hash.includes('/risk')) return 'risk';
+    if (hash.includes('/student/')) return 'students';
     return 'dashboard';
   };
 
