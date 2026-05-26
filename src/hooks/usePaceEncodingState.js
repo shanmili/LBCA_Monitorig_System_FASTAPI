@@ -124,17 +124,8 @@ export default function usePaceEncodingState(teacher = null) {
 
           secList = filterAssignedSections(sectionsResponse, teacher);
           subjList = filterAssignedSubjects(subjectsResponse, teacher);
-          // Deduplicate by subject_name
-          const uniqueSubjList = subjList.reduce((acc, subject) => {
-            if (!acc.find(s => s.subject_name === subject.subject_name)) {
-              acc.push(subject);
-            }
-            return acc;
-          }, []);
-
           setSections(secList);
-          setSubjects(uniqueSubjList);  // Use the deduplicated list
-          subjList = uniqueSubjList;  // Update subjList with deduplicated version
+          setSubjects(subjList);
         }
 
         const defaultSec  = secList[0]  || null;
