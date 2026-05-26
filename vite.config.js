@@ -8,7 +8,7 @@ export default defineConfig({
       include: /\.(js|jsx)$/,
     }),
   ],
-  base: '/LBCA_Monitoring_System_FASTAPI/',
+  base: '/',
   resolve: {
     extensions: ['.jsx', '.js', '.ts', '.tsx', '.json'],
   },
