@@ -181,7 +181,7 @@ npx expo start --ios
 
 ## Deployment Link
 
-- **Web Dashboard:** [https://shanmili.github.io/LBCA_Monitoring_System_FASTAPI](https://shanmili.github.io/LBCA_Monitoring_System_FASTAPI)
+- **Web Dashboard:** https://lbca-frontend.onrender.com/
 - **Backend API:** https://lbca-backend.onrender.com/
 - **Mobile App:** https://expo.dev/accounts/seffzxc321/projects/LBCA_Mobile/builds/553673b8-f010-45b4-ad66-5b12b5052743
 - **AI:** https://lbca-django-ai-model.onrender.com
