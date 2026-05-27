@@ -56,7 +56,7 @@ const AuthController = ({ onAuthSuccess }) => {
         body: JSON.stringify({
           email,
           password,
-          device_id: getDeviceId(login_data.email),
+          device_id: getDeviceId(email),
           device_name: navigator.userAgent.slice(0, 100),
         }),
       });
