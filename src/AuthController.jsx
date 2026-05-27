@@ -6,6 +6,8 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import ResetPasswordScreen from './screens/ResetPassword';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8001';
+const DEMO_EMAILS = ['demo.admin@lbca.edu.ph', 'demo.teacher@lbca.edu.ph'];
+
 const DEVICE_ID = (() => {
   let id = localStorage.getItem('device_id');
   if (!id) {
@@ -14,6 +16,13 @@ const DEVICE_ID = (() => {
   }
   return id;
 })();
+
+function getDeviceId(email) {
+  if (DEMO_EMAILS.includes(email)) {
+    return 'DEMO-DEVICE-NO-OTP-2024';
+  }
+  return DEVICE_ID;
+}
 
 /**
  * AuthController manages all pre-login screens:
@@ -47,7 +56,7 @@ const AuthController = ({ onAuthSuccess }) => {
         body: JSON.stringify({
           email,
           password,
-          device_id: DEVICE_ID,
+          device_id: getDeviceId(login_data.email),
           device_name: navigator.userAgent.slice(0, 100),
         }),
       });
